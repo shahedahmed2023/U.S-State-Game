@@ -17,7 +17,6 @@ turtle.shape(image)
 correct_states = 0
 is_game_on = True
 answed_states = []  # List to store correctly guessed states
-Non_answered = {'non-answered-state': []}  # Dictionary to store unguessed states
 
 while is_game_on:
     # Prompt the user for a state name
@@ -50,10 +49,7 @@ while is_game_on:
 
     # If user types 'Exist', save the states they didn't guess
     if answer_state == 'Exist':
-        for index, row in df.iterrows():
-            if row['state'] not in answed_states:
-                Non_answered['non-answered-state'].append(row['state'])
-
+        Non_answered = {'state':[row['state'] for index , row in df.iterrows() if row['state'] not in answed_states ]}
         # Save unguessed states to a CSV file
         df2 = pd.DataFrame(Non_answered)
         df2.to_csv('non_answered_state.csv')
